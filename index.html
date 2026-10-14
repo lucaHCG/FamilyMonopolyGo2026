@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#665fe9">
+  <meta name="description" content="A private-to-edit family board adventure for Luca, Sylwia, Oli and Vicky.">
+  <title>Kryspinów Family Go!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <div class="sky-orb sky-orb--one" aria-hidden="true"></div>
+    <div class="sky-orb sky-orb--two" aria-hidden="true"></div>
+
+    <section class="screen screen--active" id="home-screen" aria-labelledby="game-title">
+      <div class="home-layout">
+        <div class="hero-copy">
+          <p class="eyebrow"><span>★</span> KRYSPINÓW EDITION</p>
+          <h1 id="game-title"><span>Family</span> Go!</h1>
+          <p class="hero-tagline">Roll together. Build your neighbourhood. Win family challenges.</p>
+
+          <button class="primary-button" id="open-character-select" type="button">
+            <span>Start a new adventure</span>
+            <span class="button-arrow" aria-hidden="true">→</span>
+          </button>
+
+          <div class="feature-pills" aria-label="Game highlights">
+            <span>🎲 Family turns</span>
+            <span>🏡 Local venues</span>
+            <span>🏆 Fun challenges</span>
+          </div>
+        </div>
+
+        <div class="hero-board" aria-hidden="true">
+          <div class="mini-board">
+            <div class="mini-space mini-space--go">GO!</div>
+            <div class="mini-space">🏠</div>
+            <div class="mini-space">⭐</div>
+            <div class="mini-space">🍦</div>
+            <div class="mini-space">?</div>
+            <div class="mini-space">⚽</div>
+            <div class="mini-space">🌳</div>
+            <div class="mini-space">🎁</div>
+            <div class="mini-centre">
+              <span class="mini-die">⚄</span>
+              <strong>Family<br>Adventure</strong>
+            </div>
+          </div>
+          <span class="floating-star floating-star--one">★</span>
+          <span class="floating-star floating-star--two">★</span>
+          <span class="floating-coin floating-coin--one">F</span>
+          <span class="floating-coin floating-coin--two">F</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="character-screen" aria-labelledby="character-title" hidden>
+      <header class="screen-header">
+        <button class="back-button" id="back-home" type="button" aria-label="Return to home">←</button>
+        <div>
+          <p class="eyebrow">CHOOSE YOUR TEAM</p>
+          <h2 id="character-title">Who is playing?</h2>
+          <p>Select between two and four family adventurers.</p>
+        </div>
+        <div class="selection-count" aria-live="polite"><strong id="selected-count">0</strong><span>/ 4</span></div>
+      </header>
+
+      <div class="character-grid" id="character-grid"></div>
+
+      <footer class="selection-footer">
+        <div class="selected-summary">
+          <span class="summary-label">Selected players</span>
+          <span id="selected-names">Choose at least two</span>
+        </div>
+        <button class="primary-button primary-button--compact" id="confirm-players" type="button" disabled>
+          Continue <span class="button-arrow" aria-hidden="true">→</span>
+        </button>
+      </footer>
+    </section>
+
+    <dialog class="preview-dialog" id="preview-dialog">
+      <div class="celebration" aria-hidden="true">✨</div>
+      <p class="eyebrow">TEAM READY</p>
+      <h2>Adventure unlocked!</h2>
+      <p id="preview-message"></p>
+      <div class="next-preview">
+        <span>🎲</span>
+        <div><strong>Next milestone</strong><br>Animated dice, board movement and venue upgrades.</div>
+      </div>
+      <button class="primary-button primary-button--compact" id="close-preview" type="button">Choose again</button>
+    </dialog>
+  </main>
+
+  <script src="game-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
