@@ -82,6 +82,49 @@
       </footer>
     </section>
 
+    <section class="screen game-screen" id="game-screen" aria-labelledby="board-title" hidden>
+      <header class="game-header">
+        <button class="back-button" id="back-to-players" type="button" aria-label="Return to player selection">←</button>
+        <div class="turn-heading">
+          <p class="eyebrow">KRYSPINÓW ADVENTURE</p>
+          <h2 id="board-title">Family board</h2>
+        </div>
+        <div class="turn-badge">
+          <span>Current turn</span>
+          <strong id="current-player-name">—</strong>
+        </div>
+      </header>
+
+      <div class="game-layout">
+        <section class="board-panel" aria-label="Game board">
+          <div class="game-board" id="game-board">
+            <div class="board-centre">
+              <p class="eyebrow">TURN <span id="turn-number">1</span></p>
+              <div class="current-player-avatar" id="current-player-avatar" aria-hidden="true"></div>
+              <strong id="centre-player-name">—</strong>
+              <div class="dice" id="dice" aria-live="polite">⚀</div>
+              <button class="primary-button primary-button--compact roll-button" id="roll-dice" type="button">Roll dice</button>
+              <p class="board-hint" id="board-hint">Tap the dice to begin.</p>
+            </div>
+          </div>
+        </section>
+
+        <aside class="game-sidebar">
+          <div class="sidebar-card">
+            <p class="eyebrow">PLAYING ORDER</p>
+            <div class="player-order" id="player-order"></div>
+          </div>
+          <div class="sidebar-card movement-card">
+            <p class="eyebrow">LATEST MOVES</p>
+            <ol class="movement-log" id="movement-log" aria-live="polite">
+              <li>The adventure is ready.</li>
+            </ol>
+          </div>
+          <div class="coming-soon-note">Buying venues, rewards and challenges arrive in the next milestone.</div>
+        </aside>
+      </div>
+    </section>
+
     <dialog class="preview-dialog" id="preview-dialog">
       <div class="celebration" aria-hidden="true">✨</div>
       <p class="eyebrow">TEAM READY</p>
@@ -91,7 +134,10 @@
         <span>🎲</span>
         <div><strong>Next milestone</strong><br>Animated dice, board movement and venue upgrades.</div>
       </div>
-      <button class="primary-button primary-button--compact" id="close-preview" type="button">Choose again</button>
+      <div class="dialog-actions">
+        <button class="primary-button primary-button--compact" id="start-board" type="button">Open the board</button>
+        <button class="text-button" id="close-preview" type="button">Choose again</button>
+      </div>
     </dialog>
   </main>
 
