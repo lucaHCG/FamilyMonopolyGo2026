@@ -10,6 +10,8 @@ A responsive family board-game project inspired by the pace and delight of mobil
 - Central configuration for characters, venues, prices and challenges
 - Configurable board path with animated dice and player-token movement
 - Automatic turn rotation between selected players
+- Oli's custom toy-style avatar
+- A first selection of venue names recovered from the original Kryspinów edition
 
 Venue purchases, upgrades, money and playable challenges are intentionally reserved for later milestones.
 
