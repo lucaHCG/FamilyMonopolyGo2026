@@ -14,6 +14,9 @@ A responsive family board-game project inspired by the pace and delight of mobil
 - A first selection of venue names recovered from the original Kryspinów edition
 - Starting balances, venue purchases and visible ownership
 - Automatic rent transfers when a player lands on another player's venue
+- Custom avatars for Oli and Vicky
+- Compact ownership summary for every player
+- Full-board mobile overview without board scrolling
 
 Venue upgrades and playable challenges are intentionally reserved for later milestones.
 

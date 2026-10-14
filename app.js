@@ -17,6 +17,7 @@ const movementLog = document.querySelector("#movement-log");
 const selected = new Set();
 const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
 const venueById = new Map(config.venues.map((venue) => [venue.id, venue]));
+const spaceById = new Map(config.boardSpaces.map((space) => [space.id, space]));
 
 let activePlayers = [];
 let positions = {};
@@ -152,6 +153,30 @@ function renderTurnState() {
           <small>${status} · ${venueCount} venue${venueCount === 1 ? "" : "s"}</small>
         </span>
         <b class="player-balance">${formatMoney(balances[player.id])}</b>
+      </div>
+    `;
+  }).join("");
+
+  renderOwnershipSummary();
+}
+
+function renderOwnershipSummary() {
+  const summary = document.querySelector("#ownership-summary");
+  summary.innerHTML = activePlayers.map((player, index) => {
+    const ownedVenues = config.venues.filter((venue) => ownerships[venue.id] === player.id);
+    const venueMarkup = ownedVenues.length
+      ? ownedVenues.map((venue) => {
+        const space = spaceById.get(venue.id);
+        return `<span class="owned-venue" title="${venue.name}"><i aria-hidden="true">${space?.emoji || "🏠"}</i><span>${venue.name}</span></span>`;
+      }).join("")
+      : `<span class="no-venues">No venues yet</span>`;
+
+    return `
+      <div class="ownership-row ${index === currentTurnIndex ? "ownership-row--active" : ""}" style="--owner-colour: ${player.colour}">
+        <span class="ownership-avatar">${avatarMarkup(player)}</span>
+        <span class="ownership-name">${player.name}</span>
+        <b class="ownership-balance">${formatMoney(balances[player.id])}</b>
+        <span class="owned-venue-list">${venueMarkup}</span>
       </div>
     `;
   }).join("");

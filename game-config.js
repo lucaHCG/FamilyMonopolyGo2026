@@ -9,7 +9,7 @@ window.GAME_CONFIG = {
     { id: "luca", name: "Luca", role: "Father", emoji: "👨🏻", avatarImage: "", colour: "#315b9b" },
     { id: "sylwia", name: "Sylwia", role: "Mother", emoji: "👩🏻", avatarImage: "", colour: "#f18a3d" },
     { id: "oli", name: "Oli", role: "Son", emoji: "👦🏼", avatarImage: "assets/oli-avatar.png", colour: "#ef5b62" },
-    { id: "vicky", name: "Vicky", role: "Daughter", emoji: "👧🏻", avatarImage: "", colour: "#e36aaa" }
+    { id: "vicky", name: "Vicky", role: "Daughter", emoji: "👧🏻", avatarImage: "assets/vicky-avatar.png", colour: "#e36aaa" }
   ],
 
   boardSpaces: [

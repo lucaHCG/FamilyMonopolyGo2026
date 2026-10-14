@@ -391,6 +391,30 @@ button { font: inherit; }
 .order-player strong { font-size: .9rem; }
 .order-player small { color: var(--ink-soft); font-size: .68rem; }
 .player-balance { color: var(--purple); font-size: .78rem; white-space: nowrap; }
+.ownership-summary { display: grid; gap: 7px; }
+.ownership-row {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "avatar name balance"
+    "avatar venues venues";
+  align-items: center;
+  gap: 3px 8px;
+  padding: 7px;
+  border-radius: 12px;
+  border-left: 3px solid var(--owner-colour);
+  background: #fff;
+}
+.ownership-row--active { background: var(--lavender); }
+.ownership-avatar { grid-area: avatar; display: grid; place-items: center; width: 30px; height: 30px; overflow: hidden; border-radius: 50%; background: color-mix(in srgb, var(--owner-colour) 25%, white); font-size: 1rem; }
+.ownership-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ownership-name { grid-area: name; overflow: hidden; font-size: .78rem; font-weight: 900; text-overflow: ellipsis; white-space: nowrap; }
+.ownership-balance { grid-area: balance; color: var(--purple); font-size: .68rem; white-space: nowrap; }
+.owned-venue-list { grid-area: venues; display: flex; flex-wrap: wrap; gap: 3px; min-width: 0; }
+.owned-venue { display: inline-flex; align-items: center; gap: 3px; max-width: 100%; padding: 2px 5px; border-radius: 999px; background: #f0f2fa; color: var(--ink-soft); font-size: .55rem; font-weight: 800; }
+.owned-venue i { font-style: normal; }
+.owned-venue > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.no-venues { color: #9aa4b3; font-size: .58rem; font-weight: 700; }
 .movement-card { min-height: 150px; }
 .movement-log { display: grid; gap: 8px; margin: 0; padding-left: 19px; color: var(--ink-soft); font-size: .78rem; line-height: 1.25; }
 .coming-soon-note { padding: 14px; border-radius: 16px; color: #6d5f2d; background: #fff5cd; font-size: .76rem; font-weight: 700; line-height: 1.35; }
@@ -436,14 +460,74 @@ button { font: inherit; }
   .selection-footer { position: sticky; bottom: 8px; flex-direction: column; align-items: stretch; padding: 16px; }
   .selected-summary { text-align: center; }
   .preview-dialog { padding: 28px 20px; }
-  .game-screen { padding: 18px 12px 24px; }
-  .game-header { grid-template-columns: auto 1fr; gap: 12px; }
-  .turn-badge { grid-column: 2; justify-self: start; min-width: 0; text-align: left; }
-  .game-header h2 { font-size: 2.2rem; }
-  .board-panel { padding: 6px; border-radius: 20px; overflow-x: auto; }
-  .game-board { min-width: 520px; }
-  .game-sidebar { grid-template-columns: 1fr; }
-  .coming-soon-note { grid-column: auto; }
+  .game-screen {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: calc(100dvh - 24px);
+    min-height: 0;
+    padding: 8px;
+    overflow: hidden;
+  }
+  .game-header { grid-template-columns: auto 1fr auto; gap: 7px; margin-bottom: 6px; }
+  .game-header .back-button { width: 34px; height: 34px; border-radius: 11px; }
+  .turn-heading .eyebrow { display: none; }
+  .game-header h2 { font-size: 1.35rem; }
+  .turn-badge { grid-column: auto; justify-self: end; min-width: 0; padding: 6px 9px; border-radius: 11px; text-align: right; }
+  .turn-badge span { font-size: .5rem; }
+  .turn-badge strong { font-size: .78rem; }
+  .game-layout { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; gap: 6px; }
+  .board-panel { display: grid; place-items: center; min-height: 0; padding: 4px; border-radius: 16px; overflow: hidden; }
+  .game-board { width: min(100%, calc(100dvh - 210px)); min-width: 0; gap: 3px; }
+  .board-space { gap: 0; padding: 2px; border-width: 1px; border-radius: 8px; }
+  .board-space strong { font-size: clamp(.38rem, 1.7vw, .5rem); }
+  .space-meta { font-size: clamp(.32rem, 1.35vw, .42rem); }
+  .space-emoji { font-size: clamp(.8rem, 3.5vw, 1.15rem); }
+  .board-centre { gap: 2px; padding: 4px; border-radius: 13px; }
+  .board-centre .eyebrow { font-size: .48rem; letter-spacing: .08em; }
+  .board-centre > strong { font-size: .82rem; }
+  .current-player-avatar { width: 34px; border-width: 3px; font-size: 1.3rem; }
+  .dice { font-size: 2.35rem; }
+  .roll-button { width: auto; min-height: 32px; padding: 0 13px; border-radius: 10px; font-size: .7rem; }
+  .board-hint { min-height: 1em; max-width: 95%; overflow: hidden; font-size: .5rem; text-overflow: ellipsis; white-space: nowrap; }
+  .token-stack { right: 2px; bottom: 2px; }
+  .player-token { width: 21px; border-width: 2px; }
+  .game-sidebar { display: block; min-height: 0; }
+  .turn-order-card, .movement-card, .coming-soon-note { display: none; }
+  .ownership-card { padding: 6px; border-radius: 12px; }
+  .ownership-card .eyebrow { margin-bottom: 4px; font-size: .55rem; }
+  .ownership-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+  .ownership-row { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 1px 5px; min-height: 34px; padding: 3px 5px; border-radius: 8px; }
+  .ownership-avatar { width: 24px; height: 24px; font-size: .8rem; }
+  .ownership-name { font-size: .62rem; }
+  .ownership-balance { font-size: .55rem; }
+  .owned-venue-list { gap: 2px; }
+  .owned-venue { width: 17px; height: 17px; justify-content: center; padding: 0; font-size: .62rem; }
+  .owned-venue > span { display: none; }
+  .no-venues { font-size: .48rem; }
+}
+
+@media (orientation: landscape) and (min-width: 561px) and (max-height: 600px) and (max-width: 900px) {
+  .game-screen { display: grid; grid-template-rows: auto minmax(0, 1fr); height: calc(100dvh - 24px); min-height: 0; padding: 8px; overflow: hidden; }
+  .game-header { grid-template-columns: auto 1fr auto; gap: 7px; margin-bottom: 5px; }
+  .game-header h2 { font-size: 1.25rem; }
+  .turn-heading .eyebrow { display: none; }
+  .turn-badge { min-width: 0; padding: 5px 8px; }
+  .game-layout { grid-template-columns: minmax(0, 1fr) 230px; min-height: 0; gap: 7px; }
+  .board-panel { display: grid; place-items: center; min-height: 0; padding: 4px; overflow: hidden; }
+  .game-board { width: min(100%, calc(100dvh - 82px)); min-width: 0; gap: 3px; }
+  .board-centre { gap: 2px; padding: 4px; }
+  .current-player-avatar { width: 32px; border-width: 3px; }
+  .dice { font-size: 2.2rem; }
+  .roll-button { width: auto; min-height: 30px; padding: 0 12px; font-size: .68rem; }
+  .board-hint { font-size: .5rem; }
+  .game-sidebar { display: block; min-height: 0; overflow: hidden; }
+  .turn-order-card, .movement-card, .coming-soon-note { display: none; }
+  .ownership-card { height: 100%; padding: 7px; overflow: hidden; }
+  .ownership-card .eyebrow { margin-bottom: 5px; font-size: .55rem; }
+  .ownership-summary { gap: 4px; }
+  .ownership-row { padding: 4px; }
+  .owned-venue > span { display: none; }
+  .owned-venue { width: 19px; height: 19px; justify-content: center; padding: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
