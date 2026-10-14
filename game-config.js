@@ -6,10 +6,29 @@ window.GAME_CONFIG = {
   startingCoins: 1500,
 
   characters: [
-    { id: "luca", name: "Luca", role: "Father", emoji: "👨🏻", colour: "#315b9b" },
-    { id: "sylwia", name: "Sylwia", role: "Mother", emoji: "👩🏻", colour: "#f18a3d" },
-    { id: "oli", name: "Oli", role: "Son", emoji: "👦🏼", colour: "#ef5b62" },
-    { id: "vicky", name: "Vicky", role: "Daughter", emoji: "👧🏻", colour: "#e36aaa" }
+    { id: "luca", name: "Luca", role: "Father", emoji: "👨🏻", avatarImage: "", colour: "#315b9b" },
+    { id: "sylwia", name: "Sylwia", role: "Mother", emoji: "👩🏻", avatarImage: "", colour: "#f18a3d" },
+    { id: "oli", name: "Oli", role: "Son", emoji: "👦🏼", avatarImage: "", colour: "#ef5b62" },
+    { id: "vicky", name: "Vicky", role: "Daughter", emoji: "👧🏻", avatarImage: "", colour: "#e36aaa" }
+  ],
+
+  boardSpaces: [
+    { id: "go", label: "GO!", emoji: "🚀", row: 5, column: 1, type: "go" },
+    { id: "home", label: "Family Home", emoji: "🏠", row: 5, column: 2, type: "venue" },
+    { id: "star-one", label: "Lucky Star", emoji: "⭐", row: 5, column: 3, type: "special" },
+    { id: "playground", label: "Playground", emoji: "🛝", row: 5, column: 4, type: "venue" },
+    { id: "gift", label: "Family Gift", emoji: "🎁", row: 5, column: 5, type: "special" },
+    { id: "football", label: "Football Pitch", emoji: "⚽", row: 4, column: 5, type: "venue" },
+    { id: "challenge-one", label: "Challenge", emoji: "🏆", row: 3, column: 5, type: "challenge" },
+    { id: "forest", label: "Forest Walk", emoji: "🌳", row: 2, column: 5, type: "venue" },
+    { id: "free-stop", label: "Family Break", emoji: "🧃", row: 1, column: 5, type: "rest" },
+    { id: "lake", label: "Lake Club", emoji: "🏖️", row: 1, column: 4, type: "venue" },
+    { id: "star-two", label: "Lucky Star", emoji: "⭐", row: 1, column: 3, type: "special" },
+    { id: "ice-cream", label: "Ice-Cream", emoji: "🍦", row: 1, column: 2, type: "venue" },
+    { id: "surprise", label: "Surprise", emoji: "❔", row: 1, column: 1, type: "special" },
+    { id: "teddy-cafe", label: "Teddy Café", emoji: "🧸", row: 2, column: 1, type: "venue" },
+    { id: "challenge-two", label: "Challenge", emoji: "🏆", row: 3, column: 1, type: "challenge" },
+    { id: "bike", label: "Bike Ride", emoji: "🚲", row: 4, column: 1, type: "venue" }
   ],
 
   venues: [
