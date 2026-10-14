@@ -1,23 +1,23 @@
 // Master game content. Only the repository owner can change the published version.
-// Character names are placeholders until the owner explicitly approves publishing family names.
+// Family names and roles are published with the owner's explicit approval.
 window.GAME_CONFIG = {
   title: "Kryspinów Family Go!",
   currencySymbol: "F",
   startingCoins: 1500,
 
   characters: [
-    { id: "player-one", name: "Player One", role: "Adventurer", emoji: "🧑🏻", colour: "#315b9b" },
-    { id: "player-two", name: "Player Two", role: "Adventurer", emoji: "🧑🏻", colour: "#f18a3d" },
-    { id: "player-three", name: "Player Three", role: "Adventurer", emoji: "🧒🏼", colour: "#ef5b62" },
-    { id: "player-four", name: "Player Four", role: "Adventurer", emoji: "🧒🏻", colour: "#e36aaa" }
+    { id: "luca", name: "Luca", role: "Father", emoji: "👨🏻", colour: "#315b9b" },
+    { id: "sylwia", name: "Sylwia", role: "Mother", emoji: "👩🏻", colour: "#f18a3d" },
+    { id: "oli", name: "Oli", role: "Son", emoji: "👦🏼", colour: "#ef5b62" },
+    { id: "vicky", name: "Vicky", role: "Daughter", emoji: "👧🏻", colour: "#e36aaa" }
   ],
 
   venues: [
     { id: "home", name: "Family Home", price: 100, upgradePrices: [150, 250, 400] },
     { id: "playground", name: "Kryspinów Playground", price: 140, upgradePrices: [200, 320, 500] },
     { id: "ice-cream", name: "Lake Ice-Cream Stop", price: 180, upgradePrices: [260, 420, 650] },
-    { id: "football", name: "Football Pitch", price: 220, upgradePrices: [310, 490, 760] },
-    { id: "teddy-cafe", name: "Teddy Café", price: 260, upgradePrices: [370, 580, 900] },
+    { id: "football", name: "Oli's Football Pitch", price: 220, upgradePrices: [310, 490, 760] },
+    { id: "teddy-cafe", name: "Vicky's Teddy Café", price: 260, upgradePrices: [370, 580, 900] },
     { id: "lake", name: "Kryspinów Lake Club", price: 320, upgradePrices: [450, 700, 1100] }
   ],
 
