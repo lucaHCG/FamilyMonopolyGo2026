@@ -120,7 +120,7 @@
               <li>The adventure is ready.</li>
             </ol>
           </div>
-          <div class="coming-soon-note">Buying venues, rewards and challenges arrive in the next milestone.</div>
+          <div class="coming-soon-note">Venue buying and rent are live. Upgrades and challenges come next.</div>
         </aside>
       </div>
     </section>
@@ -132,11 +132,26 @@
       <p id="preview-message"></p>
       <div class="next-preview">
         <span>🎲</span>
-        <div><strong>Next milestone</strong><br>Buying venues, collecting rent and adding upgrades.</div>
+        <div><strong>This milestone</strong><br>Buy venues and collect rent from other players.</div>
       </div>
       <div class="dialog-actions">
         <button class="primary-button primary-button--compact" id="start-board" type="button">Open the board</button>
         <button class="text-button" id="close-preview" type="button">Choose again</button>
+      </div>
+    </dialog>
+
+    <dialog class="preview-dialog purchase-dialog" id="purchase-dialog">
+      <div class="purchase-icon" id="purchase-icon" aria-hidden="true">🏠</div>
+      <p class="eyebrow">VENUE AVAILABLE</p>
+      <h2 id="purchase-title">Buy this venue?</h2>
+      <p id="purchase-message"></p>
+      <div class="purchase-details">
+        <div><span>Price</span><strong id="purchase-price">—</strong></div>
+        <div><span>Rent</span><strong id="purchase-rent">—</strong></div>
+      </div>
+      <div class="dialog-actions">
+        <button class="primary-button primary-button--compact" id="buy-venue" type="button">Buy venue</button>
+        <button class="text-button" id="skip-venue" type="button">Not now</button>
       </div>
     </dialog>
   </main>

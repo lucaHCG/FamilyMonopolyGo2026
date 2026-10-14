@@ -32,17 +32,17 @@ window.GAME_CONFIG = {
   ],
 
   venues: [
-    { id: "playground", name: "Plac Zabaw Kryspinów", price: 60, upgradePrices: [100, 160, 240] },
-    { id: "krakows-eye", name: "Krakow's Eye", price: 80, upgradePrices: [120, 190, 280] },
-    { id: "lotnik", name: "Lotnik Kryspinów", price: 100, upgradePrices: [150, 230, 340] },
-    { id: "aqua-park", name: "Aqua-park Kraków", price: 120, upgradePrices: [180, 280, 420] },
-    { id: "oli-vicky-home", name: "Oli & Vicky Home", price: 140, upgradePrices: [210, 330, 500] },
-    { id: "shape", name: "Shape Siłownia & Fitness", price: 160, upgradePrices: [240, 380, 570] },
-    { id: "main-plaza", name: "Main Plaza Kryspinów", price: 180, upgradePrices: [270, 420, 640] },
-    { id: "energylandia", name: "Energylandia", price: 200, upgradePrices: [300, 470, 710] },
-    { id: "hotel-forum", name: "Hotel Forum", price: 220, upgradePrices: [330, 520, 780] },
-    { id: "park-decjusza", name: "Park Decjusza", price: 240, upgradePrices: [360, 560, 850] },
-    { id: "krakow-balloon", name: "Krakow Balloon", price: 260, upgradePrices: [390, 610, 920] }
+    { id: "playground", name: "Plac Zabaw Kryspinów", price: 60, rent: 10, upgradePrices: [100, 160, 240] },
+    { id: "krakows-eye", name: "Krakow's Eye", price: 80, rent: 15, upgradePrices: [120, 190, 280] },
+    { id: "lotnik", name: "Lotnik Kryspinów", price: 100, rent: 20, upgradePrices: [150, 230, 340] },
+    { id: "aqua-park", name: "Aqua-park Kraków", price: 120, rent: 25, upgradePrices: [180, 280, 420] },
+    { id: "oli-vicky-home", name: "Oli & Vicky Home", price: 140, rent: 30, upgradePrices: [210, 330, 500] },
+    { id: "shape", name: "Shape Siłownia & Fitness", price: 160, rent: 35, upgradePrices: [240, 380, 570] },
+    { id: "main-plaza", name: "Main Plaza Kryspinów", price: 180, rent: 40, upgradePrices: [270, 420, 640] },
+    { id: "energylandia", name: "Energylandia", price: 200, rent: 45, upgradePrices: [300, 470, 710] },
+    { id: "hotel-forum", name: "Hotel Forum", price: 220, rent: 50, upgradePrices: [330, 520, 780] },
+    { id: "park-decjusza", name: "Park Decjusza", price: 240, rent: 55, upgradePrices: [360, 560, 850] },
+    { id: "krakow-balloon", name: "Krakow Balloon", price: 260, rent: 60, upgradePrices: [390, 610, 920] }
   ],
 
   challenges: [

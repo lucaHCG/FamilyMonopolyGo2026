@@ -12,8 +12,10 @@ A responsive family board-game project inspired by the pace and delight of mobil
 - Automatic turn rotation between selected players
 - Oli's custom toy-style avatar
 - A first selection of venue names recovered from the original Kryspinów edition
+- Starting balances, venue purchases and visible ownership
+- Automatic rent transfers when a player lands on another player's venue
 
-Venue purchases, upgrades, money and playable challenges are intentionally reserved for later milestones.
+Venue upgrades and playable challenges are intentionally reserved for later milestones.
 
 ## Owner customization
 
@@ -21,7 +23,7 @@ The master content currently lives in `game-config.js`:
 
 - `characters`: names, roles, colours, temporary emoji avatars and an optional `avatarImage`
 - `boardSpaces`: board labels, icons, types and positions
-- `venues`: venue names, purchase prices and upgrade prices
+- `venues`: venue names, purchase prices, rents and upgrade prices
 - `challenges`: titles, instructions and rewards
 - `startingCoins`: starting balance
 

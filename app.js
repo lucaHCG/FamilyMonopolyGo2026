@@ -8,6 +8,7 @@ const selectedNames = document.querySelector("#selected-names");
 const confirmPlayers = document.querySelector("#confirm-players");
 const previewDialog = document.querySelector("#preview-dialog");
 const previewMessage = document.querySelector("#preview-message");
+const purchaseDialog = document.querySelector("#purchase-dialog");
 const gameBoard = document.querySelector("#game-board");
 const rollButton = document.querySelector("#roll-dice");
 const dice = document.querySelector("#dice");
@@ -15,12 +16,16 @@ const boardHint = document.querySelector("#board-hint");
 const movementLog = document.querySelector("#movement-log");
 const selected = new Set();
 const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+const venueById = new Map(config.venues.map((venue) => [venue.id, venue]));
 
 let activePlayers = [];
 let positions = {};
+let balances = {};
+let ownerships = {};
 let currentTurnIndex = 0;
 let turnNumber = 1;
 let isMoving = false;
+let purchaseResolver = null;
 
 function showScreen(screenToShow, screenToHide) {
   screenToHide.classList.remove("screen--active");
@@ -36,6 +41,10 @@ function avatarMarkup(character, className = "") {
     return `<img class="${className}" src="${character.avatarImage}" alt="${character.name}">`;
   }
   return `<span class="${className}" aria-hidden="true">${character.emoji}</span>`;
+}
+
+function formatMoney(amount) {
+  return `${config.currencySymbol}${Number(amount).toLocaleString()}`;
 }
 
 function renderCharacters() {
@@ -67,16 +76,45 @@ function renderBoard() {
     const tile = document.createElement("div");
     tile.className = `board-space board-space--${space.type}`;
     tile.dataset.spaceIndex = String(index);
+    tile.dataset.spaceId = space.id;
     tile.style.gridRow = String(space.row);
     tile.style.gridColumn = String(space.column);
     tile.innerHTML = `
       <span class="space-emoji" aria-hidden="true">${space.emoji}</span>
       <strong>${space.label}</strong>
+      <small class="space-meta"></small>
       <span class="token-stack" data-token-space="${index}"></span>
     `;
     gameBoard.appendChild(tile);
   });
+  renderBoardEconomy();
   renderTokens();
+}
+
+function renderBoardEconomy() {
+  config.boardSpaces.forEach((space) => {
+    const tile = document.querySelector(`[data-space-id="${space.id}"]`);
+    if (!tile) return;
+
+    const meta = tile.querySelector(".space-meta");
+    const venue = venueById.get(space.id);
+    const ownerId = ownerships[space.id];
+    const owner = activePlayers.find(({ id }) => id === ownerId);
+    tile.classList.toggle("board-space--owned", Boolean(owner));
+    tile.style.removeProperty("--owner-colour");
+
+    if (!venue) {
+      meta.textContent = "";
+      return;
+    }
+
+    if (owner) {
+      tile.style.setProperty("--owner-colour", owner.colour);
+      meta.textContent = `${owner.name} · rent ${formatMoney(venue.rent)}`;
+    } else {
+      meta.textContent = `Buy ${formatMoney(venue.price)}`;
+    }
+  });
 }
 
 function renderTokens() {
@@ -103,29 +141,102 @@ function renderTurnState() {
   document.querySelector("#current-player-avatar").innerHTML = avatarMarkup(currentPlayer);
   document.querySelector("#current-player-avatar").style.setProperty("--player-colour", currentPlayer.colour);
 
-  document.querySelector("#player-order").innerHTML = activePlayers.map((player, index) => `
-    <div class="order-player ${index === currentTurnIndex ? "order-player--active" : ""}">
-      <span class="order-avatar" style="--player-colour: ${player.colour}">${avatarMarkup(player)}</span>
-      <span><strong>${player.name}</strong><small>${index === currentTurnIndex ? "Rolling now" : "Waiting"}</small></span>
-    </div>
-  `).join("");
+  document.querySelector("#player-order").innerHTML = activePlayers.map((player, index) => {
+    const venueCount = Object.values(ownerships).filter((ownerId) => ownerId === player.id).length;
+    const status = index === currentTurnIndex ? "Rolling now" : "Waiting";
+    return `
+      <div class="order-player ${index === currentTurnIndex ? "order-player--active" : ""}">
+        <span class="order-avatar" style="--player-colour: ${player.colour}">${avatarMarkup(player)}</span>
+        <span class="order-player-info">
+          <strong>${player.name}</strong>
+          <small>${status} · ${venueCount} venue${venueCount === 1 ? "" : "s"}</small>
+        </span>
+        <b class="player-balance">${formatMoney(balances[player.id])}</b>
+      </div>
+    `;
+  }).join("");
+}
+
+function logAction(message) {
+  const item = document.createElement("li");
+  item.textContent = message;
+  movementLog.prepend(item);
+  while (movementLog.children.length > 6) movementLog.lastElementChild.remove();
 }
 
 function initialiseBoardGame() {
   activePlayers = config.characters.filter(({ id }) => selected.has(id));
   positions = Object.fromEntries(activePlayers.map(({ id }) => [id, 0]));
+  balances = Object.fromEntries(activePlayers.map(({ id }) => [id, config.startingCoins]));
+  ownerships = {};
   currentTurnIndex = 0;
   turnNumber = 1;
   isMoving = false;
   dice.textContent = diceFaces[0];
-  boardHint.textContent = "Tap the dice to begin.";
-  movementLog.innerHTML = "<li>The adventure is ready.</li>";
+  boardHint.textContent = `Each player starts with ${formatMoney(config.startingCoins)}. Tap the dice!`;
+  movementLog.innerHTML = `<li>Everyone starts with ${formatMoney(config.startingCoins)}.</li>`;
   renderBoard();
   renderTurnState();
 }
 
 function wait(milliseconds) {
   return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+}
+
+function finishPurchaseChoice(shouldBuy) {
+  if (!purchaseResolver) return;
+  const resolve = purchaseResolver;
+  purchaseResolver = null;
+  if (purchaseDialog.open) purchaseDialog.close();
+  resolve(shouldBuy);
+}
+
+function requestPurchase(player, space, venue) {
+  document.querySelector("#purchase-icon").textContent = space.emoji;
+  document.querySelector("#purchase-title").textContent = venue.name;
+  document.querySelector("#purchase-message").textContent = `${player.name}, would you like to buy this venue? You currently have ${formatMoney(balances[player.id])}.`;
+  document.querySelector("#purchase-price").textContent = formatMoney(venue.price);
+  document.querySelector("#purchase-rent").textContent = formatMoney(venue.rent);
+  purchaseDialog.showModal();
+  return new Promise((resolve) => { purchaseResolver = resolve; });
+}
+
+async function handleLanding(player, space) {
+  const venue = venueById.get(space.id);
+  if (!venue) return;
+
+  const ownerId = ownerships[venue.id];
+  if (!ownerId) {
+    if (balances[player.id] < venue.price) {
+      boardHint.textContent = `${player.name} cannot afford ${venue.name}.`;
+      logAction(`${player.name} needs ${formatMoney(venue.price)} to buy ${venue.name}`);
+      return;
+    }
+
+    const shouldBuy = await requestPurchase(player, space, venue);
+    if (shouldBuy) {
+      balances[player.id] -= venue.price;
+      ownerships[venue.id] = player.id;
+      boardHint.textContent = `${player.name} bought ${venue.name}!`;
+      logAction(`${player.name} bought ${venue.name} for ${formatMoney(venue.price)}`);
+    } else {
+      boardHint.textContent = `${player.name} left ${venue.name} available.`;
+      logAction(`${player.name} did not buy ${venue.name}`);
+    }
+  } else if (ownerId === player.id) {
+    boardHint.textContent = `${player.name} visited their own venue.`;
+    logAction(`${player.name} visited ${venue.name}`);
+  } else {
+    const owner = activePlayers.find(({ id }) => id === ownerId);
+    const paidRent = Math.min(venue.rent, balances[player.id]);
+    balances[player.id] -= paidRent;
+    balances[owner.id] += paidRent;
+    boardHint.textContent = `${player.name} paid ${formatMoney(paidRent)} rent to ${owner.name}.`;
+    logAction(`${player.name} paid ${owner.name} ${formatMoney(paidRent)} rent at ${venue.name}`);
+  }
+
+  renderBoardEconomy();
+  renderTurnState();
 }
 
 async function moveCurrentPlayer(steps) {
@@ -145,12 +256,11 @@ async function moveCurrentPlayer(steps) {
 
   const landedSpace = config.boardSpaces[positions[currentPlayer.id]];
   boardHint.textContent = `${currentPlayer.name} landed on ${landedSpace.label}.`;
-  const item = document.createElement("li");
-  item.textContent = `${currentPlayer.name} rolled ${steps} → ${landedSpace.label}`;
-  movementLog.prepend(item);
-  while (movementLog.children.length > 4) movementLog.lastElementChild.remove();
-
+  logAction(`${currentPlayer.name} rolled ${steps} → ${landedSpace.label}`);
+  await wait(reducedMotion ? 80 : 350);
+  await handleLanding(currentPlayer, landedSpace);
   await wait(reducedMotion ? 80 : 450);
+
   currentTurnIndex = (currentTurnIndex + 1) % activePlayers.length;
   turnNumber += 1;
   renderTurnState();
@@ -219,7 +329,14 @@ document.querySelector("#start-board").addEventListener("click", () => {
 });
 
 document.querySelector("#close-preview").addEventListener("click", () => previewDialog.close());
+document.querySelector("#buy-venue").addEventListener("click", () => finishPurchaseChoice(true));
+document.querySelector("#skip-venue").addEventListener("click", () => finishPurchaseChoice(false));
 rollButton.addEventListener("click", rollDice);
+
+purchaseDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  finishPurchaseChoice(false);
+});
 
 previewDialog.addEventListener("click", (event) => {
   if (event.target === previewDialog) previewDialog.close();
