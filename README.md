@@ -8,14 +8,17 @@ A responsive family board-game project inspired by the pace and delight of mobil
 - Character selection for 2–4 players
 - Mobile and laptop layouts
 - Central configuration for characters, venues, prices and challenges
+- Configurable board path with animated dice and player-token movement
+- Automatic turn rotation between selected players
 
-Board movement, dice, venue upgrades and playable challenges will be added only after the visual foundation is approved.
+Venue purchases, upgrades, money and playable challenges are intentionally reserved for later milestones.
 
 ## Owner customization
 
 The master content currently lives in `game-config.js`:
 
-- `characters`: names, roles, colours and temporary emoji avatars
+- `characters`: names, roles, colours, temporary emoji avatars and an optional `avatarImage`
+- `boardSpaces`: board labels, icons, types and positions
 - `venues`: venue names, purchase prices and upgrade prices
 - `challenges`: titles, instructions and rewards
 - `startingCoins`: starting balance
