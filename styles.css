@@ -297,9 +297,9 @@ button { font: inherit; }
 .board-panel { padding: clamp(8px, 1.3vw, 16px); border-radius: 30px; background: linear-gradient(145deg, #dff4ed, #e9e8ff); box-shadow: inset 0 0 0 1px rgba(255,255,255,.8); }
 .game-board {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-template-rows: repeat(5, minmax(0, 1fr));
-  gap: clamp(5px, .8vw, 10px);
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-template-rows: repeat(11, minmax(0, 1fr));
+  gap: clamp(2px, .35vw, 5px);
   width: 100%;
   aspect-ratio: 1;
 }
@@ -308,30 +308,32 @@ button { font: inherit; }
   display: grid;
   place-content: center;
   justify-items: center;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
-  padding: 6px;
-  border: 2px solid rgba(255,255,255,.94);
-  border-radius: clamp(11px, 1.5vw, 19px);
+  padding: 2px;
+  border: 1px solid rgba(255,255,255,.94);
+  border-radius: clamp(5px, .7vw, 10px);
   background: #fff;
   box-shadow: 0 5px 13px rgba(47, 57, 104, .1);
   text-align: center;
   transition: transform .18s ease, box-shadow .18s ease, outline-color .18s ease;
 }
-.board-space strong { overflow: hidden; max-width: 100%; color: #4a596d; font-size: clamp(.53rem, 1vw, .75rem); line-height: 1.05; }
-.space-meta { overflow: hidden; max-width: 100%; color: #718096; font-size: clamp(.43rem, .72vw, .6rem); font-weight: 800; line-height: 1.05; white-space: nowrap; text-overflow: ellipsis; }
-.space-emoji { font-size: clamp(1.2rem, 2.3vw, 2rem); line-height: 1; }
+.board-space strong { overflow: hidden; max-width: 100%; color: #4a596d; font-size: clamp(.28rem, .58vw, .62rem); line-height: .95; }
+.space-meta { overflow: hidden; max-width: 100%; color: #718096; font-size: clamp(.24rem, .43vw, .48rem); font-weight: 800; line-height: .95; white-space: nowrap; text-overflow: ellipsis; }
+.space-emoji { font-size: clamp(.65rem, 1.25vw, 1.2rem); line-height: 1; }
 .board-space--go { color: #fff; background: linear-gradient(145deg, #55d49e, #2fbc83); }
 .board-space--go strong { color: #fff; }
-.board-space--special { background: #fff4ce; }
+.board-space--chance { background: #ffe5b8; }
+.board-space--attraction { background: #fff4ce; }
+.board-space--game-card, .board-space--jail { background: #eadcff; }
 .board-space--challenge { background: #ffe1e6; }
 .board-space--rest { background: #dff2ff; }
 .board-space--owned { border-color: var(--owner-colour); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--owner-colour) 32%, transparent), 0 5px 13px rgba(47, 57, 104, .1); }
 .board-space--landed { z-index: 2; outline: 4px solid #ffd966; transform: scale(1.055); box-shadow: 0 9px 22px rgba(70, 61, 130, .24); }
 
 .board-centre {
-  grid-row: 2 / 5;
-  grid-column: 2 / 5;
+  grid-row: 2 / 11;
+  grid-column: 2 / 11;
   display: grid;
   place-items: center;
   align-content: center;
@@ -369,7 +371,7 @@ button { font: inherit; }
 .player-token {
   display: grid;
   place-items: center;
-  width: clamp(24px, 3vw, 36px);
+  width: clamp(16px, 2vw, 26px);
   aspect-ratio: 1;
   margin-left: -7px;
   overflow: hidden;
@@ -478,11 +480,12 @@ button { font: inherit; }
   .game-layout { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; gap: 6px; }
   .board-panel { display: grid; place-items: center; min-height: 0; padding: 4px; border-radius: 16px; overflow: hidden; }
   .game-board { width: min(100%, calc(100dvh - 210px)); min-width: 0; gap: 3px; }
-  .board-space { gap: 0; padding: 2px; border-width: 1px; border-radius: 8px; }
-  .board-space--has-token { padding-bottom: 17px; }
-  .board-space strong { font-size: clamp(.38rem, 1.7vw, .5rem); }
-  .space-meta { font-size: clamp(.32rem, 1.35vw, .42rem); }
-  .space-emoji { font-size: clamp(.8rem, 3.5vw, 1.15rem); }
+  .game-board { gap: 1px; }
+  .board-space { gap: 0; padding: 1px; border-width: 1px; border-radius: 4px; }
+  .board-space--has-token { padding-bottom: 10px; }
+  .board-space strong { font-size: clamp(.22rem, 1vw, .34rem); line-height: .88; }
+  .space-meta { font-size: clamp(.19rem, .82vw, .28rem); }
+  .space-emoji { font-size: clamp(.5rem, 2.5vw, .72rem); }
   .board-centre { gap: 2px; padding: 4px; border-radius: 13px; }
   .board-centre .eyebrow { font-size: .48rem; letter-spacing: .08em; }
   .board-centre > strong { font-size: .82rem; }
@@ -490,8 +493,8 @@ button { font: inherit; }
   .dice { font-size: 2.35rem; }
   .roll-button { width: auto; min-height: 32px; padding: 0 13px; border-radius: 10px; font-size: .7rem; }
   .board-hint { min-height: 1em; max-width: 95%; overflow: hidden; font-size: .5rem; text-overflow: ellipsis; white-space: nowrap; }
-  .token-stack { right: 2px; bottom: 2px; }
-  .player-token { width: 16px; margin-left: -4px; border-width: 1px; }
+  .token-stack { right: 1px; bottom: 1px; }
+  .player-token { width: 10px; margin-left: -3px; border-width: 1px; }
   .game-sidebar { display: block; min-height: 0; }
   .turn-order-card, .movement-card, .coming-soon-note { display: none; }
   .ownership-card { padding: 6px; border-radius: 12px; }

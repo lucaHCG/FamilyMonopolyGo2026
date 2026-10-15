@@ -9,6 +9,7 @@ const confirmPlayers = document.querySelector("#confirm-players");
 const previewDialog = document.querySelector("#preview-dialog");
 const previewMessage = document.querySelector("#preview-message");
 const purchaseDialog = document.querySelector("#purchase-dialog");
+const chanceDialog = document.querySelector("#chance-dialog");
 const gameBoard = document.querySelector("#game-board");
 const rollButton = document.querySelector("#roll-dice");
 const dice = document.querySelector("#dice");
@@ -27,6 +28,7 @@ let currentTurnIndex = 0;
 let turnNumber = 1;
 let isMoving = false;
 let purchaseResolver = null;
+let chanceResolver = null;
 
 function showScreen(screenToShow, screenToHide) {
   screenToHide.classList.remove("screen--active");
@@ -228,7 +230,77 @@ function requestPurchase(player, space, venue) {
   return new Promise((resolve) => { purchaseResolver = resolve; });
 }
 
+function finishChanceCard() {
+  if (!chanceResolver) return;
+  const resolve = chanceResolver;
+  chanceResolver = null;
+  if (chanceDialog.open) chanceDialog.close();
+  resolve();
+}
+
+function showChanceCard(player) {
+  const card = config.chanceCards[Math.floor(Math.random() * config.chanceCards.length)];
+  let result = "";
+
+  if (card.action === "advance-go") {
+    positions[player.id] = 0;
+    balances[player.id] += card.amount;
+    result = `${player.name} moves to GO and receives ${formatMoney(card.amount)}.`;
+  } else if (card.action === "collect") {
+    balances[player.id] += card.amount;
+    result = `${player.name} receives ${formatMoney(card.amount)}.`;
+  } else if (card.action === "pay") {
+    const paid = Math.min(card.amount, balances[player.id]);
+    balances[player.id] -= paid;
+    result = `${player.name} pays ${formatMoney(paid)}.`;
+  } else if (card.action === "pay-per-venue") {
+    const venueCount = Object.values(ownerships).filter((ownerId) => ownerId === player.id).length;
+    const paid = Math.min(card.amount * venueCount, balances[player.id]);
+    balances[player.id] -= paid;
+    result = venueCount
+      ? `${player.name} pays ${formatMoney(paid)} for ${venueCount} venue${venueCount === 1 ? "" : "s"}.`
+      : `${player.name} owns no venues, so pays nothing.`;
+  } else if (card.action === "go-jail") {
+    positions[player.id] = config.boardSpaces.findIndex(({ id }) => id === "jail");
+    result = `${player.name} moves directly to Jail.`;
+  }
+
+  renderTokens();
+  document.querySelectorAll(".board-space--landed").forEach((tile) => tile.classList.remove("board-space--landed"));
+  document.querySelector(`[data-space-index="${positions[player.id]}"]`)?.classList.add("board-space--landed");
+  document.querySelector("#chance-card-text").textContent = card.text;
+  document.querySelector("#chance-result").textContent = result;
+  boardHint.textContent = result;
+  logAction(`Chance: ${result}`);
+  renderTurnState();
+  chanceDialog.showModal();
+  return new Promise((resolve) => { chanceResolver = resolve; });
+}
+
 async function handleLanding(player, space) {
+  if (space.type === "chance") {
+    await showChanceCard(player);
+    return;
+  }
+
+  if (space.type === "attraction") {
+    boardHint.textContent = `${player.name} enjoys a family adventure at ${space.label}!`;
+    logAction(`${player.name} visited ${space.label}`);
+    return;
+  }
+
+  if (space.type === "game-card") {
+    boardHint.textContent = `${player.name} found the Game Card.`;
+    logAction(`${player.name} landed on the Game Card`);
+    return;
+  }
+
+  if (space.type === "jail") {
+    boardHint.textContent = `${player.name} is just visiting Jail.`;
+    logAction(`${player.name} is just visiting Jail`);
+    return;
+  }
+
   const venue = venueById.get(space.id);
   if (!venue) return;
 
@@ -275,6 +347,10 @@ async function moveCurrentPlayer(steps) {
     const oldSpace = document.querySelector(`[data-space-index="${positions[currentPlayer.id]}"]`);
     oldSpace?.classList.remove("board-space--landed");
     positions[currentPlayer.id] = (positions[currentPlayer.id] + 1) % config.boardSpaces.length;
+    if (positions[currentPlayer.id] === 0) {
+      balances[currentPlayer.id] += 200;
+      logAction(`${currentPlayer.name} passed GO and collected ${formatMoney(200)}`);
+    }
     renderTokens();
     const newSpace = document.querySelector(`[data-space-index="${positions[currentPlayer.id]}"]`);
     newSpace?.classList.add("board-space--landed");
@@ -358,11 +434,17 @@ document.querySelector("#start-board").addEventListener("click", () => {
 document.querySelector("#close-preview").addEventListener("click", () => previewDialog.close());
 document.querySelector("#buy-venue").addEventListener("click", () => finishPurchaseChoice(true));
 document.querySelector("#skip-venue").addEventListener("click", () => finishPurchaseChoice(false));
+document.querySelector("#close-chance").addEventListener("click", finishChanceCard);
 rollButton.addEventListener("click", rollDice);
 
 purchaseDialog.addEventListener("cancel", (event) => {
   event.preventDefault();
   finishPurchaseChoice(false);
+});
+
+chanceDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  finishChanceCard();
 });
 
 previewDialog.addEventListener("click", (event) => {

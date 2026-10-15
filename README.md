@@ -17,6 +17,8 @@ A responsive family board-game project inspired by the pace and delight of mobil
 - Custom avatars for Oli and Vicky
 - Compact ownership summary for every player
 - Full-board mobile overview without board scrolling
+- The complete original 40-space Kryspinów board and venue sequence
+- Chance cards with bonuses, penalties and movement effects
 
 Venue upgrades and playable challenges are intentionally reserved for later milestones.
 
