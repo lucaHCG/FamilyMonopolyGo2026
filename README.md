@@ -41,3 +41,5 @@ Open `index.html`, or run a simple local server from the repository directory:
 ```bash
 python3 -m http.server 8000
 ```
+
+<!-- Restart GitHub Pages deployment -->
