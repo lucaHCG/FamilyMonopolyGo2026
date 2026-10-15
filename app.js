@@ -50,6 +50,21 @@ function formatMoney(amount) {
   return `${config.currencySymbol}${Number(amount).toLocaleString()}`;
 }
 
+function attractionCountFor(ownerId) {
+  return config.venues.filter((venue) => (
+    venue.group === "attraction" && ownerships[venue.id] === ownerId
+  )).length;
+}
+
+function currentRentFor(venue, ownerId) {
+  if (venue.group !== "attraction" || !Array.isArray(venue.rents)) {
+    return venue.rent;
+  }
+
+  const ownedAttractions = Math.max(1, attractionCountFor(ownerId));
+  return venue.rents[Math.min(ownedAttractions, venue.rents.length) - 1];
+}
+
 function renderCharacters() {
   characterGrid.innerHTML = config.characters.map((character) => `
     <button class="character-card" type="button" data-character-id="${character.id}" aria-pressed="false">
@@ -113,7 +128,7 @@ function renderBoardEconomy() {
 
     if (owner) {
       tile.style.setProperty("--owner-colour", owner.colour);
-      meta.textContent = `${owner.name} · rent ${formatMoney(venue.rent)}`;
+      meta.textContent = `${owner.name} · rent ${formatMoney(currentRentFor(venue, owner.id))}`;
     } else {
       meta.textContent = `Buy ${formatMoney(venue.price)}`;
     }
@@ -221,11 +236,15 @@ function finishPurchaseChoice(shouldBuy) {
 }
 
 function requestPurchase(player, space, venue) {
+  const isAttraction = venue.group === "attraction";
   document.querySelector("#purchase-icon").textContent = space.emoji;
   document.querySelector("#purchase-title").textContent = venue.name;
-  document.querySelector("#purchase-message").textContent = `${player.name}, would you like to buy this venue? You currently have ${formatMoney(balances[player.id])}.`;
+  document.querySelector("#purchase-message").textContent = `${player.name}, would you like to buy this ${isAttraction ? "attraction" : "venue"}? You currently have ${formatMoney(balances[player.id])}.`;
   document.querySelector("#purchase-price").textContent = formatMoney(venue.price);
-  document.querySelector("#purchase-rent").textContent = formatMoney(venue.rent);
+  document.querySelector("#purchase-rent").textContent = isAttraction
+    ? venue.rents.map(formatMoney).join(" / ")
+    : formatMoney(venue.rent);
+  document.querySelector("#buy-venue").textContent = isAttraction ? "Buy attraction" : "Buy venue";
   purchaseDialog.showModal();
   return new Promise((resolve) => { purchaseResolver = resolve; });
 }
@@ -283,12 +302,6 @@ async function handleLanding(player, space) {
     return;
   }
 
-  if (space.type === "attraction") {
-    boardHint.textContent = `${player.name} enjoys a family adventure at ${space.label}!`;
-    logAction(`${player.name} visited ${space.label}`);
-    return;
-  }
-
   if (space.type === "game-card") {
     boardHint.textContent = `${player.name} found the Game Card.`;
     logAction(`${player.name} landed on the Game Card`);
@@ -323,11 +336,12 @@ async function handleLanding(player, space) {
       logAction(`${player.name} did not buy ${venue.name}`);
     }
   } else if (ownerId === player.id) {
-    boardHint.textContent = `${player.name} visited their own venue.`;
+    boardHint.textContent = `${player.name} visited their own ${venue.group === "attraction" ? "attraction" : "venue"}.`;
     logAction(`${player.name} visited ${venue.name}`);
   } else {
     const owner = activePlayers.find(({ id }) => id === ownerId);
-    const paidRent = Math.min(venue.rent, balances[player.id]);
+    const rent = currentRentFor(venue, owner.id);
+    const paidRent = Math.min(rent, balances[player.id]);
     balances[player.id] -= paidRent;
     balances[owner.id] += paidRent;
     boardHint.textContent = `${player.name} paid ${formatMoney(paidRent)} rent to ${owner.name}.`;
