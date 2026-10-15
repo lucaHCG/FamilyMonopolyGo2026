@@ -50,6 +50,15 @@ function formatMoney(amount) {
   return `${config.currencySymbol}${Number(amount).toLocaleString()}`;
 }
 
+function shuffledPlayers(players) {
+  const shuffled = [...players];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 function attractionCountFor(ownerId) {
   return config.venues.filter((venue) => (
     venue.group === "attraction" && ownerships[venue.id] === ownerId
@@ -209,7 +218,7 @@ function logAction(message) {
 }
 
 function initialiseBoardGame() {
-  activePlayers = config.characters.filter(({ id }) => selected.has(id));
+  activePlayers = shuffledPlayers(config.characters.filter(({ id }) => selected.has(id)));
   positions = Object.fromEntries(activePlayers.map(({ id }) => [id, 0]));
   balances = Object.fromEntries(activePlayers.map(({ id }) => [id, config.startingCoins]));
   ownerships = {};
@@ -217,8 +226,11 @@ function initialiseBoardGame() {
   turnNumber = 1;
   isMoving = false;
   dice.textContent = diceFaces[0];
-  boardHint.textContent = `Each player starts with ${formatMoney(config.startingCoins)}. Tap the dice!`;
-  movementLog.innerHTML = `<li>Everyone starts with ${formatMoney(config.startingCoins)}.</li>`;
+  boardHint.textContent = `${activePlayers[0].name} goes first! Tap the dice.`;
+  movementLog.innerHTML = `
+    <li>Playing order: ${activePlayers.map(({ name }) => name).join(" → ")}.</li>
+    <li>Everyone starts with ${formatMoney(config.startingCoins)}.</li>
+  `;
   renderBoard();
   renderTurnState();
 }
