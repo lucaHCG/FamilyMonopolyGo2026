@@ -119,10 +119,12 @@ function renderBoardEconomy() {
 }
 
 function renderTokens() {
+  document.querySelectorAll(".board-space").forEach((space) => space.classList.remove("board-space--has-token"));
   document.querySelectorAll(".token-stack").forEach((stack) => { stack.innerHTML = ""; });
   activePlayers.forEach((player) => {
     const stack = document.querySelector(`[data-token-space="${positions[player.id]}"]`);
     if (!stack) return;
+    stack.closest(".board-space")?.classList.add("board-space--has-token");
     const token = document.createElement("span");
     token.className = "player-token";
     token.style.setProperty("--token-colour", player.colour);
