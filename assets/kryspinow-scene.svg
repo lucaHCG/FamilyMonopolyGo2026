@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Colourful Krakow and Kryspinow lakeside illustration">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6fc9ff"/>
+      <stop offset=".48" stop-color="#9fa7ff"/>
+      <stop offset="1" stop-color="#d785e8"/>
+    </linearGradient>
+    <linearGradient id="hillBack" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#87e096"/>
+      <stop offset="1" stop-color="#49b879"/>
+    </linearGradient>
+    <linearGradient id="hillFront" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#4dcf8b"/>
+      <stop offset="1" stop-color="#249a71"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#55dff0"/>
+      <stop offset="1" stop-color="#387bd9"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#ffd77a"/>
+      <stop offset=".5" stop-color="#ffb66f"/>
+      <stop offset="1" stop-color="#ffce7b"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#31527c" flood-opacity=".24"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1340" cy="155" r="92" fill="#ffe66b" opacity=".95"/>
+  <circle cx="1340" cy="155" r="122" fill="none" stroke="#fff3a9" stroke-width="20" opacity=".28"/>
+
+  <g fill="#fff" opacity=".76">
+    <path d="M120 185c28-48 100-42 119 4 44-28 104 6 96 56H83c-8-33 8-54 37-60z"/>
+    <path d="M1015 115c22-38 78-34 94 3 36-23 84 5 78 46H984c-6-27 7-44 31-49z"/>
+    <path d="M650 220c18-32 65-29 79 2 30-19 71 4 65 39H624c-5-23 6-37 26-41z" opacity=".6"/>
+  </g>
+
+  <g fill="#fff6bd" opacity=".8">
+    <circle cx="330" cy="110" r="7"/><circle cx="410" cy="165" r="5"/>
+    <circle cx="895" cy="88" r="6"/><circle cx="1490" cy="280" r="8"/>
+    <path d="M520 98l8 17 18 3-13 13 3 19-16-9-17 9 4-19-14-13 19-3z"/>
+    <path d="M1220 250l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/>
+  </g>
+
+  <path d="M0 520c180-120 360-125 540-24 190-147 416-150 628-24 165-98 309-82 432-12v250H0z" fill="url(#hillBack)"/>
+  <path d="M0 610c210-95 420-70 600 42 196-116 410-132 625-22 145-71 270-68 375-18v170H0z" fill="url(#hillFront)"/>
+
+  <g transform="translate(90 300)" fill="#48539a" opacity=".92">
+    <path d="M0 250h430v55H0z"/>
+    <path d="M24 170h115v80H24z"/>
+    <path d="M47 118h34v52H47z"/><path d="M107 92h28v78h-28z"/>
+    <path d="M43 118l21-35 21 35z"/><path d="M102 92l19-38 19 38z"/>
+    <rect x="170" y="142" width="96" height="108" rx="8"/>
+    <path d="M160 142l58-54 58 54z"/>
+    <rect x="298" y="110" width="42" height="140" rx="7"/>
+    <rect x="355" y="80" width="48" height="170" rx="7"/>
+    <path d="M294 110l25-45 25 45z"/><path d="M351 80l28-53 28 53z"/>
+    <circle cx="319" cy="145" r="9" fill="#ffd36c"/>
+    <circle cx="379" cy="122" r="10" fill="#ffd36c"/>
+  </g>
+
+  <g transform="translate(1255 210)">
+    <path d="M75 0c58 0 91 51 73 99-13 35-46 64-73 88-27-24-60-53-73-88C-16 51 17 0 75 0z" fill="#ff6b7d"/>
+    <path d="M75 0c25 0 43 51 35 99-5 35-19 64-35 88-16-24-30-53-35-88C32 51 50 0 75 0z" fill="#ffd65f"/>
+    <path d="M38 103h74" stroke="#fff" stroke-width="8" opacity=".8"/>
+    <path d="M67 187l-9 25h34l-9-25z" fill="#7a4c36"/>
+    <rect x="57" y="207" width="36" height="24" rx="5" fill="#a96d43"/>
+  </g>
+
+  <path d="M0 650c310-42 540 38 790 20 301-22 516-94 810-25v355H0z" fill="url(#lake)"/>
+  <g fill="none" stroke="#d9fbff" stroke-width="9" stroke-linecap="round" opacity=".62">
+    <path d="M80 730c118-28 233-27 345 4"/>
+    <path d="M510 785c145-35 289-33 432 7"/>
+    <path d="M1045 715c125-30 250-29 375 5"/>
+    <path d="M250 875c100-20 201-17 303 8"/>
+    <path d="M960 900c135-25 267-19 397 10"/>
+  </g>
+
+  <path d="M0 890c190-86 378-80 567 10 197 94 396 88 596-16 145-75 291-78 437-12v128H0z" fill="url(#sand)"/>
+
+  <g transform="translate(1050 665)">
+    <path d="M55 0v150" stroke="#704a43" stroke-width="9" stroke-linecap="round"/>
+    <path d="M61 13l112 100H61z" fill="#fff7c2"/>
+    <path d="M48 32L-29 122h77z" fill="#ff7a6f"/>
+    <path d="M-60 151h245c-20 31-58 46-121 46-62 0-102-15-124-46z" fill="#774ec6"/>
+  </g>
+
+  <g fill="#287d57">
+    <path d="M70 815c8-80 18-132 30-157 14 35 21 87 20 157z"/>
+    <path d="M112 820c14-66 31-112 51-138 6 44 1 91-16 142z"/>
+    <path d="M1480 825c-2-76 7-131 27-166 12 44 13 101 3 169z"/>
+    <path d="M1522 824c9-63 25-106 48-130 3 43-4 87-20 132z"/>
+  </g>
+
+  <g fill="#fff" opacity=".55">
+    <circle cx="735" cy="715" r="9"/><circle cx="770" cy="748" r="5"/>
+    <circle cx="1450" cy="690" r="7"/><circle cx="470" cy="810" r="6"/>
+  </g>
+</svg>
