@@ -479,6 +479,7 @@ button { font: inherit; }
   .board-panel { display: grid; place-items: center; min-height: 0; padding: 4px; border-radius: 16px; overflow: hidden; }
   .game-board { width: min(100%, calc(100dvh - 210px)); min-width: 0; gap: 3px; }
   .board-space { gap: 0; padding: 2px; border-width: 1px; border-radius: 8px; }
+  .board-space--has-token { padding-bottom: 17px; }
   .board-space strong { font-size: clamp(.38rem, 1.7vw, .5rem); }
   .space-meta { font-size: clamp(.32rem, 1.35vw, .42rem); }
   .space-emoji { font-size: clamp(.8rem, 3.5vw, 1.15rem); }
@@ -490,7 +491,7 @@ button { font: inherit; }
   .roll-button { width: auto; min-height: 32px; padding: 0 13px; border-radius: 10px; font-size: .7rem; }
   .board-hint { min-height: 1em; max-width: 95%; overflow: hidden; font-size: .5rem; text-overflow: ellipsis; white-space: nowrap; }
   .token-stack { right: 2px; bottom: 2px; }
-  .player-token { width: 21px; border-width: 2px; }
+  .player-token { width: 16px; margin-left: -4px; border-width: 1px; }
   .game-sidebar { display: block; min-height: 0; }
   .turn-order-card, .movement-card, .coming-soon-note { display: none; }
   .ownership-card { padding: 6px; border-radius: 12px; }
