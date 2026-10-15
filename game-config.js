@@ -56,6 +56,10 @@ window.GAME_CONFIG = {
   ],
 
   venues: [
+    { id: "acquapark", name: "Acquapark Krakow", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
+    { id: "legendia", name: "Legendia Katowice", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
+    { id: "rabkoland", name: "Rabkoland", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
+    { id: "energylandia", name: "Energylandia", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
     { id: "playground", name: "Plac Zabaw Kryspinow", price: 60, rent: 4, upgradePrices: [50, 80, 120] },
     { id: "lotnik", name: "Lotnik Kryspinow", price: 60, rent: 4, upgradePrices: [50, 80, 120] },
     { id: "antos-julek-home", name: "Antoś & Julek Home", price: 100, rent: 6, upgradePrices: [80, 120, 180] },
