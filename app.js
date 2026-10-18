@@ -10,6 +10,7 @@ const previewDialog = document.querySelector("#preview-dialog");
 const previewMessage = document.querySelector("#preview-message");
 const purchaseDialog = document.querySelector("#purchase-dialog");
 const chanceDialog = document.querySelector("#chance-dialog");
+const rentDialog = document.querySelector("#rent-dialog");
 const gameBoard = document.querySelector("#game-board");
 const rollButton = document.querySelector("#roll-dice");
 const dice = document.querySelector("#dice");
@@ -29,6 +30,7 @@ let turnNumber = 1;
 let isMoving = false;
 let purchaseResolver = null;
 let chanceResolver = null;
+let rentResolver = null;
 
 function showScreen(screenToShow, screenToHide) {
   screenToHide.classList.remove("screen--active");
@@ -308,6 +310,30 @@ function showChanceCard(player) {
   return new Promise((resolve) => { chanceResolver = resolve; });
 }
 
+function finishRentAnimation() {
+  if (!rentResolver) return;
+  const resolve = rentResolver;
+  rentResolver = null;
+  if (rentDialog.open) rentDialog.close();
+  resolve();
+}
+
+function showRentAnimation(player, owner, space, venue, amount) {
+  document.querySelector("#rent-payer-avatar").innerHTML = avatarMarkup(player);
+  document.querySelector("#rent-owner-avatar").innerHTML = avatarMarkup(owner);
+  document.querySelector("#rent-payer-name").textContent = player.name;
+  document.querySelector("#rent-owner-name").textContent = owner.name;
+  document.querySelector("#rent-venue-emoji").textContent = space.emoji;
+  document.querySelector("#rent-venue-name").textContent = venue.name;
+  document.querySelector("#rent-result").textContent = `${player.name} pays ${formatMoney(amount)} to ${owner.name}.`;
+
+  rentDialog.classList.remove("rent-dialog--animate");
+  void rentDialog.offsetWidth;
+  rentDialog.classList.add("rent-dialog--animate");
+  rentDialog.showModal();
+  return new Promise((resolve) => { rentResolver = resolve; });
+}
+
 async function handleLanding(player, space) {
   if (space.type === "chance") {
     await showChanceCard(player);
@@ -358,6 +384,9 @@ async function handleLanding(player, space) {
     balances[owner.id] += paidRent;
     boardHint.textContent = `${player.name} paid ${formatMoney(paidRent)} rent to ${owner.name}.`;
     logAction(`${player.name} paid ${owner.name} ${formatMoney(paidRent)} rent at ${venue.name}`);
+    renderBoardEconomy();
+    renderTurnState();
+    await showRentAnimation(player, owner, space, venue, paidRent);
   }
 
   renderBoardEconomy();
@@ -461,6 +490,7 @@ document.querySelector("#close-preview").addEventListener("click", () => preview
 document.querySelector("#buy-venue").addEventListener("click", () => finishPurchaseChoice(true));
 document.querySelector("#skip-venue").addEventListener("click", () => finishPurchaseChoice(false));
 document.querySelector("#close-chance").addEventListener("click", finishChanceCard);
+document.querySelector("#close-rent").addEventListener("click", finishRentAnimation);
 rollButton.addEventListener("click", rollDice);
 
 purchaseDialog.addEventListener("cancel", (event) => {
@@ -471,6 +501,11 @@ purchaseDialog.addEventListener("cancel", (event) => {
 chanceDialog.addEventListener("cancel", (event) => {
   event.preventDefault();
   finishChanceCard();
+});
+
+rentDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  finishRentAnimation();
 });
 
 previewDialog.addEventListener("click", (event) => {
