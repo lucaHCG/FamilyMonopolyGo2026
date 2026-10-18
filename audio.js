@@ -197,6 +197,14 @@
       });
       playTone(86, now + 0.5, 0.08, { type: "square", gain: 0.06, release: 0.04 });
       playTone(82, now + 0.59, 0.1, { type: "square", gain: 0.05, release: 0.05 });
+    } else if (name === "build") {
+      duckMusic(2.6);
+      [48, 48, 52, 52].forEach((note, index) => {
+        playTone(note, now + index * 0.38, 0.14, { type: "square", gain: 0.055, release: 0.06 });
+      });
+      [69, 74, 78, 81, 86].forEach((note, index) => {
+        playTone(note, now + 1.42 + index * 0.12, 0.46, { type: "triangle", gain: 0.085, release: 0.28 });
+      });
     } else if (name === "on") {
       [74, 78, 81].forEach((note, index) => {
         playTone(note, now + index * 0.08, 0.24, { type: "triangle", gain: 0.08 });

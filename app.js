@@ -10,6 +10,7 @@ const confirmPlayers = document.querySelector("#confirm-players");
 const previewDialog = document.querySelector("#preview-dialog");
 const previewMessage = document.querySelector("#preview-message");
 const purchaseDialog = document.querySelector("#purchase-dialog");
+const buildDialog = document.querySelector("#build-dialog");
 const chanceDialog = document.querySelector("#chance-dialog");
 const rentDialog = document.querySelector("#rent-dialog");
 const gameBoard = document.querySelector("#game-board");
@@ -30,6 +31,8 @@ let currentTurnIndex = 0;
 let turnNumber = 1;
 let isMoving = false;
 let purchaseResolver = null;
+let buildResolver = null;
+let buildReadyTimer = null;
 let chanceResolver = null;
 let rentResolver = null;
 
@@ -271,6 +274,43 @@ function requestPurchase(player, space, venue) {
   return new Promise((resolve) => { purchaseResolver = resolve; });
 }
 
+function finishBuildAnimation() {
+  const finishButton = document.querySelector("#finish-build");
+  if (!buildResolver || finishButton.disabled) return;
+  window.clearTimeout(buildReadyTimer);
+  const resolve = buildResolver;
+  buildResolver = null;
+  if (buildDialog.open) buildDialog.close();
+  resolve();
+}
+
+function showBuildAnimation(player, venue) {
+  const landmarkImage = document.querySelector("#build-landmark-image");
+  const finishButton = document.querySelector("#finish-build");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelector("#build-title").textContent = `Building ${venue.name}!`;
+  document.querySelector("#build-message").textContent = `${player.name} is creating a new landmark for the family board.`;
+  landmarkImage.src = venue.landmarkImage;
+  landmarkImage.alt = `New 3D landmark for ${venue.name}`;
+  buildDialog.style.setProperty("--owner-colour", player.colour);
+  finishButton.disabled = true;
+  finishButton.textContent = "Building…";
+  buildDialog.classList.remove("build-dialog--animate");
+  void buildDialog.offsetWidth;
+  buildDialog.classList.add("build-dialog--animate");
+  buildDialog.showModal();
+  familyAudio?.cue("build");
+
+  buildReadyTimer = window.setTimeout(() => {
+    finishButton.disabled = false;
+    finishButton.textContent = "Place it on the board!";
+    finishButton.focus();
+  }, reducedMotion ? 120 : 2600);
+
+  return new Promise((resolve) => { buildResolver = resolve; });
+}
+
 function finishChanceCard() {
   if (!chanceResolver) return;
   const resolve = chanceResolver;
@@ -385,6 +425,8 @@ async function handleLanding(player, space) {
       ownerships[venue.id] = player.id;
       boardHint.textContent = `${player.name} bought ${venue.name}!`;
       logAction(`${player.name} bought ${venue.name} for ${formatMoney(venue.price)}`);
+      renderTurnState();
+      if (venue.landmarkImage) await showBuildAnimation(player, venue);
     } else {
       boardHint.textContent = `${player.name} left ${venue.name} available.`;
       logAction(`${player.name} did not buy ${venue.name}`);
@@ -506,6 +548,7 @@ document.querySelector("#start-board").addEventListener("click", () => {
 document.querySelector("#close-preview").addEventListener("click", () => previewDialog.close());
 document.querySelector("#buy-venue").addEventListener("click", () => finishPurchaseChoice(true));
 document.querySelector("#skip-venue").addEventListener("click", () => finishPurchaseChoice(false));
+document.querySelector("#finish-build").addEventListener("click", finishBuildAnimation);
 document.querySelector("#close-chance").addEventListener("click", finishChanceCard);
 document.querySelector("#close-rent").addEventListener("click", finishRentAnimation);
 rollButton.addEventListener("click", rollDice);
@@ -513,6 +556,11 @@ rollButton.addEventListener("click", rollDice);
 purchaseDialog.addEventListener("cancel", (event) => {
   event.preventDefault();
   finishPurchaseChoice(false);
+});
+
+buildDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  finishBuildAnimation();
 });
 
 chanceDialog.addEventListener("cancel", (event) => {
