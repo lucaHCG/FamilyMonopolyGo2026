@@ -305,44 +305,22 @@ button { font: inherit; }
 .rent-dialog h2 { font-size: clamp(2.1rem, 6vw, 3.4rem); }
 .rent-scene {
   display: grid;
-  grid-template-columns: minmax(100px, 1fr) minmax(150px, 1.25fr) minmax(100px, 1fr);
+  grid-template-columns: minmax(150px, 1fr) minmax(140px, 1.05fr) minmax(150px, 1fr);
   align-items: center;
-  gap: 14px;
-  margin: 28px 0 20px;
+  gap: 8px;
+  margin: 18px 0 16px;
 }
 .rent-player { position: relative; display: grid; justify-items: center; gap: 6px; min-width: 0; }
-.rent-avatar {
-  display: grid;
-  place-items: center;
-  width: clamp(78px, 13vw, 112px);
+.rent-character-animation {
+  display: block;
+  width: clamp(145px, 22vw, 205px);
+  max-width: 100%;
   aspect-ratio: 1;
-  overflow: hidden;
-  border: 6px solid #fff;
-  border-radius: 50%;
-  background: #edf0ff;
-  box-shadow: 0 12px 25px rgba(46, 50, 110, .2);
-  font-size: 3.4rem;
+  object-fit: contain;
+  filter: drop-shadow(0 13px 12px rgba(46, 50, 110, .18));
 }
-.rent-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .rent-player strong { overflow: hidden; max-width: 100%; font-family: "Baloo 2", sans-serif; font-size: 1.25rem; text-overflow: ellipsis; white-space: nowrap; }
 .rent-player small { color: var(--ink-soft); font-size: .72rem; font-weight: 800; }
-.rent-mood {
-  position: absolute;
-  z-index: 2;
-  top: -15px;
-  right: 4px;
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 4px solid #fff;
-  border-radius: 50%;
-  background: #fff4cf;
-  box-shadow: 0 8px 16px rgba(51, 53, 105, .16);
-  font-size: 1.35rem;
-}
-.rent-player--owner .rent-avatar { background: #e4faee; }
-.rent-player--payer .rent-avatar { background: #fff0e6; }
 .rent-venue {
   position: relative;
   display: grid;
@@ -362,8 +340,6 @@ button { font: inherit; }
 .coin-stream span:nth-child(2) { top: 29%; animation-delay: .18s; }
 .coin-stream span:nth-child(3) { top: 67%; animation-delay: .36s; }
 .rent-result { margin: 0 0 22px; color: var(--purple) !important; font-size: 1.12rem; font-weight: 900; }
-.rent-dialog--animate .rent-player--payer { animation: payer-reaction .72s ease both; }
-.rent-dialog--animate .rent-player--owner { animation: owner-celebrate .7s .35s ease both; }
 .rent-dialog--animate .rent-venue { animation: venue-pop .55s .12s ease both; }
 .rent-dialog--animate .coin-stream span { animation: coin-fly 1.05s .55s ease-in-out forwards; }
 .rent-dialog--animate .coin-stream span:nth-child(2) { animation-delay: .73s; }
@@ -582,11 +558,10 @@ button { font: inherit; }
   .selected-summary { text-align: center; }
   .preview-dialog { padding: 28px 20px; }
   .rent-dialog { padding: 26px 14px; }
-  .rent-scene { grid-template-columns: minmax(72px, 1fr) minmax(90px, 1.05fr) minmax(72px, 1fr); gap: 6px; margin-block: 22px 16px; }
-  .rent-avatar { width: 70px; border-width: 4px; }
+  .rent-scene { grid-template-columns: minmax(88px, 1fr) minmax(82px, .9fr) minmax(88px, 1fr); gap: 3px; margin-block: 10px 12px; }
+  .rent-character-animation { width: min(112px, 29vw); }
   .rent-player strong { font-size: .92rem; }
   .rent-player small { font-size: .58rem; line-height: 1.05; }
-  .rent-mood { top: -12px; right: -2px; width: 34px; height: 34px; border-width: 3px; font-size: 1rem; }
   .rent-venue { min-height: 118px; padding: 12px 6px; border-radius: 18px; }
   .rent-venue-emoji { font-size: 2.4rem; }
   .rent-venue strong { font-size: .72rem; }

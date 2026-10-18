@@ -319,8 +319,14 @@ function finishRentAnimation() {
 }
 
 function showRentAnimation(player, owner, space, venue, amount) {
-  document.querySelector("#rent-payer-avatar").innerHTML = avatarMarkup(player);
-  document.querySelector("#rent-owner-avatar").innerHTML = avatarMarkup(owner);
+  const payerAnimation = document.querySelector("#rent-payer-animation");
+  const ownerAnimation = document.querySelector("#rent-owner-animation");
+  const replayToken = Date.now();
+
+  payerAnimation.src = `assets/${player.id}-payer.gif?v=1#${replayToken}`;
+  payerAnimation.alt = `${player.name} looks grumpy and opens a wallet`;
+  ownerAnimation.src = `assets/${owner.id}-owner.gif?v=1#${replayToken}`;
+  ownerAnimation.alt = `${owner.name} laughs and celebrates`;
   document.querySelector("#rent-payer-name").textContent = player.name;
   document.querySelector("#rent-owner-name").textContent = owner.name;
   document.querySelector("#rent-venue-emoji").textContent = space.emoji;
