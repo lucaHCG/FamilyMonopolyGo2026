@@ -103,6 +103,7 @@ function updateSelection() {
 function renderBoard() {
   gameBoard.querySelectorAll(".board-space").forEach((space) => space.remove());
   config.boardSpaces.forEach((space, index) => {
+    const venue = venueById.get(space.id);
     const tile = document.createElement("div");
     tile.className = `board-space board-space--${space.type}`;
     tile.dataset.spaceIndex = String(index);
@@ -111,6 +112,11 @@ function renderBoard() {
     tile.style.gridColumn = String(space.column);
     tile.innerHTML = `
       <span class="space-emoji" aria-hidden="true">${space.emoji}</span>
+      ${venue?.landmarkImage ? `
+        <span class="property-landmark" aria-hidden="true">
+          <img src="${venue.landmarkImage}" alt="" width="256" height="256">
+        </span>
+      ` : ""}
       <strong>${space.label}</strong>
       <small class="space-meta"></small>
       <span class="token-stack" data-token-space="${index}"></span>
@@ -131,6 +137,7 @@ function renderBoardEconomy() {
     const ownerId = ownerships[space.id];
     const owner = activePlayers.find(({ id }) => id === ownerId);
     tile.classList.toggle("board-space--owned", Boolean(owner));
+    tile.classList.toggle("board-space--landmark-built", Boolean(owner && venue?.landmarkImage));
     tile.style.removeProperty("--owner-colour");
 
     if (!venue) {

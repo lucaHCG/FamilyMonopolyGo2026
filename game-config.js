@@ -56,7 +56,7 @@ window.GAME_CONFIG = {
   ],
 
   venues: [
-    { id: "acquapark", name: "Acquapark Krakow", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
+    { id: "acquapark", name: "Acquapark Krakow", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", landmarkImage: "assets/acquapark-landmark.png", upgradePrices: [] },
     { id: "legendia", name: "Legendia Katowice", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
     { id: "rabkoland", name: "Rabkoland", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
     { id: "energylandia", name: "Energylandia", price: 200, rent: 25, rents: [25, 50, 100, 200], group: "attraction", upgradePrices: [] },
