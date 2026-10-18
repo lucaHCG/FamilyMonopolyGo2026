@@ -27,6 +27,29 @@ body {
   overflow-x: hidden;
 }
 
+.audio-toggle {
+  position: fixed;
+  z-index: 50;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 3px solid rgba(255, 255, 255, .88);
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #746cf0, #9a52d5);
+  box-shadow: 0 9px 22px rgba(54, 46, 136, .3);
+  cursor: pointer;
+  transition: transform .2s ease, filter .2s ease;
+}
+.audio-toggle:hover { transform: translateY(-2px) scale(1.04); filter: brightness(1.05); }
+.audio-toggle:active { transform: scale(.94); }
+.audio-toggle[aria-pressed="false"] { filter: saturate(.35); opacity: .82; }
+.audio-toggle span { font-size: 1.25rem; line-height: 1; }
+
 button { font: inherit; }
 
 .app-shell {

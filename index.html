@@ -13,6 +13,9 @@
 </head>
 <body>
   <main class="app-shell">
+    <button class="audio-toggle" id="audio-toggle" type="button" aria-pressed="true" aria-label="Mute music and sounds" title="Mute music and sounds">
+      <span aria-hidden="true">🔊</span>
+    </button>
     <div class="sky-orb sky-orb--one" aria-hidden="true"></div>
     <div class="sky-orb sky-orb--two" aria-hidden="true"></div>
 
@@ -200,6 +203,7 @@
     </dialog>
   </main>
 
+  <script src="audio.js"></script>
   <script src="game-config.js"></script>
   <script src="app.js"></script>
 </body>

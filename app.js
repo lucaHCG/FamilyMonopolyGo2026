@@ -1,4 +1,5 @@
 const config = window.GAME_CONFIG;
+const familyAudio = window.FamilyAudio;
 const homeScreen = document.querySelector("#home-screen");
 const characterScreen = document.querySelector("#character-screen");
 const gameScreen = document.querySelector("#game-screen");
@@ -306,6 +307,7 @@ function showChanceCard(player) {
   boardHint.textContent = result;
   logAction(`Chance: ${result}`);
   renderTurnState();
+  familyAudio?.cue(card.action === "go-jail" ? "jail" : "chance");
   chanceDialog.showModal();
   return new Promise((resolve) => { chanceResolver = resolve; });
 }
@@ -355,6 +357,7 @@ async function handleLanding(player, space) {
   if (space.type === "jail") {
     boardHint.textContent = `${player.name} is just visiting Jail.`;
     logAction(`${player.name} is just visiting Jail`);
+    familyAudio?.cue("jail");
     return;
   }
 
@@ -487,6 +490,7 @@ confirmPlayers.addEventListener("click", () => {
 });
 
 document.querySelector("#start-board").addEventListener("click", () => {
+  familyAudio?.start();
   previewDialog.close();
   initialiseBoardGame();
   showScreen(gameScreen, characterScreen);
