@@ -294,6 +294,81 @@ button { font: inherit; }
 .purchase-details span { color: var(--ink-soft); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .purchase-details strong { color: var(--purple); font-family: "Baloo 2", sans-serif; font-size: 1.5rem; }
 
+.rent-dialog {
+  width: min(720px, calc(100vw - 24px));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 218, 112, .3), transparent 25%),
+    radial-gradient(circle at 88% 22%, rgba(91, 211, 164, .25), transparent 26%),
+    #fff;
+}
+.rent-dialog h2 { font-size: clamp(2.1rem, 6vw, 3.4rem); }
+.rent-scene {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) minmax(150px, 1.25fr) minmax(100px, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0 20px;
+}
+.rent-player { position: relative; display: grid; justify-items: center; gap: 6px; min-width: 0; }
+.rent-avatar {
+  display: grid;
+  place-items: center;
+  width: clamp(78px, 13vw, 112px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  background: #edf0ff;
+  box-shadow: 0 12px 25px rgba(46, 50, 110, .2);
+  font-size: 3.4rem;
+}
+.rent-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.rent-player strong { overflow: hidden; max-width: 100%; font-family: "Baloo 2", sans-serif; font-size: 1.25rem; text-overflow: ellipsis; white-space: nowrap; }
+.rent-player small { color: var(--ink-soft); font-size: .72rem; font-weight: 800; }
+.rent-mood {
+  position: absolute;
+  z-index: 2;
+  top: -15px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: #fff4cf;
+  box-shadow: 0 8px 16px rgba(51, 53, 105, .16);
+  font-size: 1.35rem;
+}
+.rent-player--owner .rent-avatar { background: #e4faee; }
+.rent-player--payer .rent-avatar { background: #fff0e6; }
+.rent-venue {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  min-height: 150px;
+  padding: 18px 12px;
+  border: 4px solid #fff;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #dff5ff, #eee7ff);
+  box-shadow: 0 16px 34px rgba(58, 60, 130, .2);
+}
+.rent-venue-emoji { font-size: 3.4rem; filter: drop-shadow(0 7px 8px rgba(44, 48, 106, .16)); }
+.rent-venue strong { font-family: "Baloo 2", sans-serif; font-size: 1rem; line-height: 1.05; }
+.coin-stream { --coin-travel: clamp(110px, 20vw, 210px); position: absolute; inset: 0; pointer-events: none; }
+.coin-stream span { position: absolute; left: -42%; top: 48%; opacity: 0; font-size: 1.45rem; }
+.coin-stream span:nth-child(2) { top: 29%; animation-delay: .18s; }
+.coin-stream span:nth-child(3) { top: 67%; animation-delay: .36s; }
+.rent-result { margin: 0 0 22px; color: var(--purple) !important; font-size: 1.12rem; font-weight: 900; }
+.rent-dialog--animate .rent-player--payer { animation: payer-reaction .72s ease both; }
+.rent-dialog--animate .rent-player--owner { animation: owner-celebrate .7s .35s ease both; }
+.rent-dialog--animate .rent-venue { animation: venue-pop .55s .12s ease both; }
+.rent-dialog--animate .coin-stream span { animation: coin-fly 1.05s .55s ease-in-out forwards; }
+.rent-dialog--animate .coin-stream span:nth-child(2) { animation-delay: .73s; }
+.rent-dialog--animate .coin-stream span:nth-child(3) { animation-delay: .91s; }
+
 .game-screen {
   padding: clamp(22px, 3.5vw, 48px);
   background:
@@ -461,6 +536,10 @@ button { font: inherit; }
 
 @keyframes board-float { 0%, 100% { transform: rotate(5deg) translateY(0); } 50% { transform: rotate(3deg) translateY(-12px); } }
 @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-12px) rotate(5deg); } }
+@keyframes payer-reaction { 0% { transform: translateY(-18px) rotate(3deg); opacity: 0; } 55% { transform: translateY(5px) rotate(-4deg); } 100% { transform: translateY(0) rotate(-2deg); opacity: 1; } }
+@keyframes owner-celebrate { 0% { transform: scale(.75); opacity: 0; } 55% { transform: scale(1.12) rotate(4deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes venue-pop { 0% { transform: scale(.65); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes coin-fly { 0% { transform: translateX(0) rotate(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateX(var(--coin-travel)) rotate(540deg); opacity: 0; } }
 
 @media (max-width: 900px) {
   .home-layout { grid-template-columns: 1fr; }
@@ -502,6 +581,18 @@ button { font: inherit; }
   .selection-footer { position: sticky; bottom: 8px; flex-direction: column; align-items: stretch; padding: 16px; }
   .selected-summary { text-align: center; }
   .preview-dialog { padding: 28px 20px; }
+  .rent-dialog { padding: 26px 14px; }
+  .rent-scene { grid-template-columns: minmax(72px, 1fr) minmax(90px, 1.05fr) minmax(72px, 1fr); gap: 6px; margin-block: 22px 16px; }
+  .rent-avatar { width: 70px; border-width: 4px; }
+  .rent-player strong { font-size: .92rem; }
+  .rent-player small { font-size: .58rem; line-height: 1.05; }
+  .rent-mood { top: -12px; right: -2px; width: 34px; height: 34px; border-width: 3px; font-size: 1rem; }
+  .rent-venue { min-height: 118px; padding: 12px 6px; border-radius: 18px; }
+  .rent-venue-emoji { font-size: 2.4rem; }
+  .rent-venue strong { font-size: .72rem; }
+  .coin-stream span { font-size: 1.05rem; }
+  .coin-stream { --coin-travel: 105px; }
+  .rent-result { margin-bottom: 16px; font-size: .92rem; }
   .game-screen {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
