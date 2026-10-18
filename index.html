@@ -168,6 +168,38 @@
         <button class="primary-button primary-button--compact" id="close-chance" type="button">Continue</button>
       </div>
     </dialog>
+
+    <dialog class="preview-dialog rent-dialog" id="rent-dialog">
+      <p class="eyebrow">RENT TIME!</p>
+      <h2>Someone owns this place</h2>
+      <div class="rent-scene" aria-label="Rent payment animation">
+        <div class="rent-player rent-player--payer">
+          <span class="rent-mood" aria-hidden="true">😟</span>
+          <span class="rent-avatar" id="rent-payer-avatar"></span>
+          <strong id="rent-payer-name">Player</strong>
+          <small><span aria-hidden="true">👛</span> opens the wallet</small>
+        </div>
+
+        <div class="rent-venue">
+          <span class="rent-venue-emoji" id="rent-venue-emoji" aria-hidden="true">🏠</span>
+          <strong id="rent-venue-name">Venue</strong>
+          <div class="coin-stream" aria-hidden="true">
+            <span>🪙</span><span>🪙</span><span>🪙</span>
+          </div>
+        </div>
+
+        <div class="rent-player rent-player--owner">
+          <span class="rent-mood" aria-hidden="true">😄</span>
+          <span class="rent-avatar" id="rent-owner-avatar"></span>
+          <strong id="rent-owner-name">Owner</strong>
+          <small><span aria-hidden="true">✨</span> collects the rent</small>
+        </div>
+      </div>
+      <p class="rent-result" id="rent-result"></p>
+      <div class="dialog-actions">
+        <button class="primary-button primary-button--compact" id="close-rent" type="button">Continue</button>
+      </div>
+    </dialog>
   </main>
 
   <script src="game-config.js"></script>
